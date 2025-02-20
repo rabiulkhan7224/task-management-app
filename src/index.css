@@ -2,3 +2,9 @@
 @plugin "daisyui" {
   themes: false;
 }
+
+.btn{
+  border-color: none;
+  border-radius: 30px;
+  border-width: 1px;
+}

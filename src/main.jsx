@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router'
 import Main from './Layouts/Main.jsx'
 import Dashboard from './Page/Dashboard/Dashboard.jsx'
 import Home from './Page/home/Home.jsx'
+import Login from './Page/Auth/Login.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -14,7 +15,7 @@ createRoot(document.getElementById('root')).render(
       <Route path="/" element={<Main/>}>
       <Route index element={<Home/>} />
       <Route path='/dashboard' element={ <Dashboard />} />
-      
+      <Route path='/login' element={<Login />} />
       </Route>
      
 
