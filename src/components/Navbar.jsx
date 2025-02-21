@@ -1,9 +1,23 @@
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
+import useAuth from "../hooks/useAuth";
+import toast from "react-hot-toast";
 
 
 const Navbar = () => {
 
-
+const {user,  logout,}=useAuth()
+const navigate = useNavigate()
+    const handlelogOut =async () => {
+        try {
+            await logout()
+            toast.success('logout user')    
+                navigate('/')
+        } catch (error) {
+            console.log(error.message)
+        }
+        
+            
+    }
 
     const link = <>
         <li><NavLink className={({ isActive }) =>
@@ -35,7 +49,22 @@ const Navbar = () => {
     </ul>
   </div>
   <div className="navbar-end">
-    <Link className="btn" to={'/login'}>Login </Link>
+  {user ? <div className="dropdown dropdown-hover relative">
+                        <div tabIndex={0} role="button" className=""><div className="avatar">
+                            <div className="ring-primary ring-offset-base-100 w-16 rounded-full ring ring-offset-2">
+                                <img 
+                                 referrerPolicy='no-referrer'
+                                src={user?.photoURL} 
+                                alt='User Profile Photo'/>
+                            </div>
+                        </div></div>
+                        <ul tabIndex={0} className=" right-0 dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                            <li className="text-center font-semibold"><a >{user.displayName}</a></li>
+                            <li  ><button onClick={handlelogOut} className="btn btn-warning">Log Out</button></li>
+                            <li><Link to={'/dashboard'} className="btn">Dashboard</Link></li>
+                        </ul>
+                    </div> : <Link className="btn btn-ghost" to={'/login'}>Login</Link>}
+    
     
   </div>
 </div>

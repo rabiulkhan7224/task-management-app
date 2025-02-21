@@ -2,18 +2,40 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Login = () => {
+const{signInWithGoogle,login}=useAuth()
     const [showpassword, setShowpassword] = useState(false)
-
+    const location = useLocation()
+    const navigate = useNavigate()
+    const form = location?.state?.from.pathname || '/'
 
     const { register, handleSubmit, } = useForm()
 
-    const onSubmit = async (data) => {
-        console.log(data)
+    const onSubmits =  async(data) => {
+        if (data) {
+            try {
+                await login(data.email, data.password)
+                toast.success('login successful')
+                navigate(form, { replace: true })
+            } catch (error) {
+                toast.error(error.message)
+
+            }
+        }
     }
-    const handleSigninWithGoogle = async () => {
+    const handleSigninWithGoogle =async () => {
+        try {
+           await signInWithGoogle()
+           toast.success('login successful')
+           navigate(form, { replace: true })
+        } catch (error) {
+            toast.error(error.message)
+        }
+        
     }
     return (
         <div className="hero bg-base-200 min-h-screen">
@@ -23,7 +45,7 @@ const Login = () => {
 
 
 
-            <form onSubmit={handleSubmit(onSubmit)} className="card-body">
+            <form onSubmit={handleSubmit(onSubmits)} className="card-body">
 
                 <div className="form-control">
                     <label className="fieldset-label">
@@ -37,11 +59,11 @@ const Login = () => {
                         <span className="label-text">Password</span>
                     </label>
                     <input {...register('password')} type={showpassword ? 'text' : 'password'} placeholder="password" name="password" className="input input-bordered" required />
-                    <a><h1 onClick={() => setShowpassword(!showpassword)} className="btn btn-xs absolute right-4 top-12">{showpassword ? <FaEyeSlash /> : <FaEye />}
-                    </h1></a>
+                    <a><button onClick={() => setShowpassword(!showpassword)} className="btn btn-xs absolute right-4 top-12">{showpassword ? <FaEyeSlash /> : <FaEye />}
+                    </button></a>
                 </div>
                 <div className="form-control text-center  mt-6">
-                    <button className="btn w-full ">Login</button>
+                    <button type="submit" className="btn w-full    ">Login</button>
                 </div>
             </form>
             <p className="text-red-500"></p>
