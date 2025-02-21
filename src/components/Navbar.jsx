@@ -41,7 +41,7 @@ const navigate = useNavigate()
         {link}
       </ul>
     </div>
-    <a className="btn btn-ghost text-xl">daisyUI</a>
+    <a className=" text-xl font-bold">TaskPad </a>
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
