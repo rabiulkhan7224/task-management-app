@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
     const { user } = useAuth()
@@ -16,7 +17,10 @@ const Dashboard = () => {
     });
     const addTask = useMutation({
         mutationFn: (newTask) => axios.post(`${import.meta.env.VITE_BACKEND_URL}/tasks`, newTask),
-        onSuccess: () => queryClient.invalidateQueries(["tasks", user?.email]),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["tasks", user?.email])
+            toast.success("Task added")
+        },
     });
 
     const deleteTask = useMutation({
@@ -66,14 +70,15 @@ const Dashboard = () => {
     if (isLoading) return <p>Loading...</p>;
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4 text-center">Task Manager</h1>
+        <div className="container  mx-auto p-5 ">
+            <h1 className="text-2xl font-bold mb-4 mt-16 text-center">Task Manager</h1>
             <div className="grid md:grid-cols-3 gap-2">
                 {["To-Do", "In Progress", "Done"].map((category) => (
                     <div
                         key={category}
                         onDragOver={(e) => e.preventDefault()}
                         onDrop={(e) => handleDrop(e, category)}
+                        
                         className=" p-4 border rounded shadow-md"
                     >
                         <h2 className="text-xl text-center font-semibold mb-2">{category}</h2>
@@ -90,6 +95,7 @@ const Dashboard = () => {
                                         <div className="card-body">
                                             <h2 className="card-title">{task.title}</h2>
                                             <p>{task.description}</p>
+                                            <p className={`${task.category==="In Progress"?'text-blue-500' :'r'} ${task.category==="Done"?'text-green-500' :'r'} ${task.category==="To-Do"?'text-yellow-500' :'r'}`}>{task.category}</p>
                                             <div className="justify-end card-actions">
                                                 <button onClick={() => deleteTask.mutate(task._id)} className="btn btn-primary">delete</button>
                                             </div>
@@ -108,7 +114,7 @@ const Dashboard = () => {
                 ))}
             </div>
 
-            <div className="mt-6">
+            <div className="mt-6 card bg-base-100 w-full max-w-sm mx-auto shrink-0 shadow-2xl">
                 <h2 className="text-lg font-semibold">Add Task</h2>
                 <input
                     type="text"

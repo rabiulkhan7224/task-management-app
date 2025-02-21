@@ -27,8 +27,8 @@ const navigate = useNavigate()
             isActive ? "text-blue-600  shadow-lg " : "text-black"
         } to={'/dashboard'}>Dashboard</NavLink></li></>
     return (
-        <div>
-            <div className="navbar bg-base-100 shadow-sm">
+        <div className="">
+            <div className="navbar container mx-auto fixed z-50  bg-white/50 shadow-sm">
   <div className="navbar-start">
     <div className="dropdown">
       <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
