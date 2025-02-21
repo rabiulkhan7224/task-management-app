@@ -52,7 +52,7 @@ TaskPad is a simple and efficient task management app that helps users organize 
 ### **Backend Setup**
 1. Clone the backend repository:
    ```sh
-   git clone https://github.com/yourusername/taskpad-backend.git
+   git clone https://github.com/rabiulkhan7224/task-management-server
    cd taskpad-backend
    ```
 2. Install dependencies:
