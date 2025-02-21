@@ -11,9 +11,13 @@ import AuthProvider from './provider/AuthProvider.jsx'
 import { Toaster } from 'react-hot-toast'
 import PrivateRoute from './router/PrivateRoute.jsx'
 import Register from './Page/Auth/Register.jsx'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
+
+const queryClient = new QueryClient();
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <QueryClientProvider client={queryClient}>
 <AuthProvider>
 <BrowserRouter>
 <Routes>
@@ -30,5 +34,6 @@ createRoot(document.getElementById('root')).render(
 </BrowserRouter>
 <Toaster position='top-right' reverseOrder={false} />
 </AuthProvider>
+</QueryClientProvider>
   </StrictMode>,
 )
